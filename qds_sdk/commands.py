@@ -218,9 +218,10 @@ class Command(Resource):
             if include_header not in ('true', 'false'):
                 raise ParseError("incude_header can be either true or false")
 
-
         r = conn.get(result_path, {'inline': inline, 'include_headers': include_header})
         if r.get('inline'):
+            if fp == 'return':
+                return r['results']
             if sys.version_info < (3, 0, 0):
                 fp.write(r['results'].encode('utf8'))
             else:
